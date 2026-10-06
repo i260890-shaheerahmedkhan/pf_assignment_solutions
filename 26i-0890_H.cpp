@@ -1,4 +1,5 @@
 #include<iostream>
+#include<cmath>
 
 using namespace std;
 
@@ -94,6 +95,18 @@ case 1:
 	
 	int SurchargePct;
 	(dangerPoints >= 7) ? (SurchargePct = 50):((dangerPoints >= 5) ? (SurchargePct = 25):((dangerPoints >= 3) ? (SurchargePct = 10):0));
+	int NeedleS = (NeedleCost * (100 + SurchargePct))/100;
+	int BandageS = (BandageCost * (100 + SurchargePct))/100;
+	int MarbleS = (MarbleCost * (100 + SurchargePct))/100;
+	int RopeS = (RopeCost * (100 + SurchargePct))/100;
+	int itemsAfterSurcharge = NeedleS + BandageS + MarbleS + RopeS;
+
+	int LateFee = (timeLeft < 15 ) ? 250 : ((timeLeft < 45) ? 100 : 0);
+	int GuardToll = (card && !cameras) ? 0 : (50 + (alertAdj/10) * 5);
+	int base = (type == 'A') ? 40 : ((type == 'T') ? 30 : 35); 
+	int carryCap = ally && (base + 10);
+
+
 
 
 break;

@@ -1,4 +1,5 @@
 #include<iostream>
+#include<iomanip>
 #include<cmath>
 
 using namespace std;
@@ -112,8 +113,35 @@ case 1:
 break;
 	}
 case 2:
+{
+	double U,V,x,D;
+	double Wo = 0.8, B = 0.12, Uo = 15.0, u = 3.4, Do = 0.5;
+
+	cout<<"\nEnter the WindSpeed (in km/h): ";
+	cin>>U;
+	cout<<"Enter the Terrain slope (in radians): ";
+	cin>>x;
+	cout<<"Enter the vegetation fuel dryness index: ";
+	cin>>D;
+
+	V = (Wo * exp(B * U)) + (Uo * sin(x) * sin(x)) + (u * log((D + 1.0)/Do)) + sqrt(U * cos(x) + 1.0);
+
+	cout<<"\nWildfire propagation velocity V = "<<setprecision(4)<<V;
+
+	int Vint = V;
+	int F1 = ((V - Vint) * 100.0);
+	int F2 = ((((V - Vint) * 100.0 ) - F1) * 100.0);
+	long long rollLast4 = 0890;
+	int R = (rollLast4 % 89) + 10;
+	int K = (Vint * pow(10,6)) + (F1 * pow(10,4)) + (F2 * pow(10,2)) + R;
+
+
+
+
+
 
 break;
+}
 
 case 3:
 

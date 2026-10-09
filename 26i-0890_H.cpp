@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 
@@ -124,8 +125,8 @@ int main() {
     int LateFee = (timeLeft < 15) ? 250 : ((timeLeft < 45) ? 100 : 0);
     int GuardToll = (card && !cameras) ? 0 : (50 + (alertAdj / 10) * 5);
     int base = (type == 'A') ? 40 : ((type == 'T') ? 30 : 35);
-    int carryCap = ally && (base + 10);
-    int weightPenalty = min(500, 25 * max(0, packKg - carryCap));
+    int carryCap = base + (ally ? 10 : 0);
+    int weightPenalty = min(500, (25 * max(0, (packKg - carryCap))));
     int wager = bet ? stake : 0;
 
     int allyRebate = ally ? 60 : 0;
@@ -200,7 +201,7 @@ int main() {
     cout << "\nBandageCost=" << BandageCost;
     cout << "\nMarbleCost=" << MarbleCost;
     cout << "\nRopeCost=" << RopeCost;
-    cout << "\nDangePoints=" << dangerPoints;
+    cout << "\nDangerPoints=" << dangerPoints;
     cout << "\nSurchargePct=" << SurchargePct << "%";
     cout << "\nLateFee=" << LateFee;
     cout << "\nGuardToll=" << GuardToll;
@@ -211,7 +212,7 @@ int main() {
     cout << "\nTotal=" << Total;
     cout << "\nCashUsed=" << CashUsed;
     cout << "\nPayable=" << Payable;
-    cout << "\nSurvialChance=" << SurvivalChance;
+    cout << "\nSurvivalChance=" << SurvivalChance;
     cout << "\nOutcome=" << Outcome;
     cout << "\nPrizeShare=" << PrizeShare;
     cout << "\nBetPayout=" << BetPayout;

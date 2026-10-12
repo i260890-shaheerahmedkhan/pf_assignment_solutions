@@ -1,5 +1,6 @@
-#include <algorithm>
+
 #include <cmath>
+#include <iomanip>
 #include <iostream>
 
 using namespace std;
@@ -25,18 +26,28 @@ int main() {
     cout << "Enter the type of character you are ( A for Athlete, T for "
             "Thinker, G for Gambler ): ";
     cin >> type;
+    ((type != 'A') && (type != 'T') && (type != 'G')) &&
+        (cout << "You entered the wrong character type!");
     (type == 'A') ? (Rope = 100)
                   : ((type == 'T') ? (Needle = 120) : (Marble = 45));
     cout << "Select the game \n 1 = Red Light Green Light\n 2 = Honeycomb\n 3 "
             "= Tug of War\n 4 = Marbles\n 5 = Glass Bridge\n ";
     cin >> game;
+    ((game < 1) || (game > 5)) &&
+        (cout << "The game you selected is not available!");
     cout << "Enter the time left until the starting of the game in minutes "
             "(0-120): ";
     cin >> timeLeft;
+    ((timeLeft < 0) || (timeLeft > 120)) &&
+        (cout << "The time left is not entered correctly!");
     cout << "Enter the guard alert (0-100): ";
     cin >> guardAlert;
+    ((guardAlert < 0) || (guardAlert > 100)) &&
+        (cout << "The guard alert value you entered is wrong!");
     cout << "What are the injuries (0-3): ";
     cin >> injuries;
+    ((injuries < 0) || (injuries > 3)) &&
+        (cout << "The injury level you entered is invalid!");
     cout << "Are the lights on: \n 1 for on \n 0 for off\n ";
     cin >> lightsOn;
     cout << "State of VIP cameras: \n 1 for active \n 0 for not active\n ";
@@ -45,34 +56,57 @@ int main() {
     cin >> takeNeedles;
     cout << "What is the number of needles (0-40): ";
     cin >> needles;
+    ((needles < 0) || (needles > 40)) &&
+        (cout << "The number of needles you entered is incorrect!");
     cout << "Will you take bandages ( 0 for no , 1 for yes ): ";
     cin >> takeBandages;
     cout << "Enter the number of bandages (0-30): ";
     cin >> bandages;
+    ((bandages < 0) || (bandages > 30)) &&
+        (cout << "The number of bandages you entered is invalid!");
     cout << "Will you take marbles ( 0 for no , 1 for yes ): ";
     cin >> takeMarbles;
     cout << "Enter the number of marbles (0-100): ";
     cin >> marbles;
+    ((marbles < 0) || (marbles > 100)) &&
+        (cout << "The number of marbles you entered is invalid!");
     cout << "Will you take the rope ( 0 for no , 1 for yes ): ";
     cin >> takeRope;
     cout << "Enter the length of the rope in metres (0-60): ";
     cin >> ropeM;
+    ((ropeM < 0) || (ropeM > 60)) &&
+        (cout << "The length of the rope is incorrect!");
     cout << "What is the weight you carry in kg (0-150): ";
     cin >> packKg;
+    ((packKg < 0) || (packKg > 150)) &&
+        (cout << "The weight you entered is invalid!");
     cout << "Enter your stamina (0-100): ";
     cin >> stamina;
+    ((stamina < 0) || (stamina > 100)) &&
+        (cout << "The value of stamina you entered is invlaid!");
     cout << "Enter the players left (2-456): ";
     cin >> playersLeft;
+    ((playersLeft < 2) || (playersLeft > 456)) &&
+        (cout << "The number of players you entered is incorrect!");
     cout << "What do you bet \n 0 = No bet\n 1 = SAFE \n 2 = RISKY \n ";
     cin >> bet;
+    ((bet != 0) && (bet != 1) && (bet != 2)) &&
+        (cout << "You entered the wrong value for bet!");
     (bet != 0) && (cout << "Enter your stake (0-2000): ", cin >> stake);
+    ((stake < 0) || (stake > 2000)) && (cout << "You stake is invlaid!");
     cout << "Do you have a favor \n 0 = None\n 1 = INSIDER\n 2 = HUSH\n 3 = "
             "MEDPASS\n ";
     cin >> favor;
+    ((favor != 0) && (favor != 1) && (favor != 2) && (favor != 3)) &&
+        (cout << "You entered an invalid favor!");
     cout << "Enter the cash you have (0-6000): ";
     cin >> cash;
+    ((cash < 0) || (cash > 6000)) &&
+        (cout << "The cash amount you entered is invalid!");
     cout << "Enter your debt (0-3000): ";
     cin >> debt;
+    ((debt < 0) || (debt > 3000)) &&
+        (cout << "The debt value you entered is invalid!");
     cout << "Do you have an invitation card ( 0 for no , 1 for yes ): ";
     cin >> card;
     cout << "Do you have an ally ( 0 for no , 1 for yes ): ";
@@ -220,9 +254,30 @@ int main() {
 
     break;
   }
-  case 2:
+  case 2: {
 
-    break;
+    double U, V, x, D;
+    double Wo = 0.8, B = 0.12, Uo = 15.0, u = 3.4, Do = 0.5;
+
+    cout << "\nEnter the WindSpeed (in km/h): ";
+    cin >> U;
+    cout << "Enter the Terrain slope (in radians): ";
+    cin >> x;
+    cout << "Enter the vegetation fuel dryness index: ";
+    cin >> D;
+
+    V = (Wo * exp(B * U)) + (Uo * sin(x) * sin(x)) + (u * log((D + 1.0) / Do)) +
+        sqrt(U * cos(x) + 1.0);
+
+    cout << "\nWildfire propagation velocity V = " << setprecision(4) << V;
+
+    int Vint = V;
+    int F1 = ((V - Vint) * 100.0);
+    int F2 = ((((V - Vint) * 100.0) - F1) * 100.0);
+    long long rollLast4 = 890;
+    int R = (rollLast4 % 89) + 10;
+    int K = (Vint * pow(10, 6)) + (F1 * pow(10, 4)) + (F2 * pow(10, 2)) + R;
+  } break;
 
   case 3:
 

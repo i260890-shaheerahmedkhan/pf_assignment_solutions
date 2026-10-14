@@ -256,28 +256,55 @@ int main() {
   }
   case 2: {
 
-    double U, V, x, D;
+    double U, V, theta, D;
     double Wo = 0.8, B = 0.12, Uo = 15.0, u = 3.4, Do = 0.5;
+    long long rollLast4;
 
     cout << "\nEnter the WindSpeed (in km/h): ";
     cin >> U;
     cout << "Enter the Terrain slope (in radians): ";
-    cin >> x;
+    cin >> theta;
     cout << "Enter the vegetation fuel dryness index: ";
     cin >> D;
+    cout << "Enter the last four digits of your roll number: ";
+    cin >> rollLast4;
 
-    V = (Wo * exp(B * U)) + (Uo * sin(x) * sin(x)) + (u * log((D + 1.0) / Do)) +
-        sqrt(U * cos(x) + 1.0);
+    V = (Wo * exp(B * U)) + (Uo * sin(theta) * sin(theta)) +
+        (u * log((D + 1.0) / Do)) + sqrt(U * cos(theta) + 1.0);
 
-    cout << "\nWildfire propagation velocity V = " << setprecision(4) << V;
+    cout << "\nWildfire propagation velocity delta V = " << fixed
+         << setprecision(4) << V;
 
     int Vint = V;
     int F1 = ((V - Vint) * 100.0);
     int F2 = ((((V - Vint) * 100.0) - F1) * 100.0);
-    long long rollLast4 = 890;
     int R = (rollLast4 % 89) + 10;
-    int K = (Vint * pow(10, 6)) + (F1 * pow(10, 4)) + (F2 * pow(10, 2)) + R;
-  } break;
+    long long K = (Vint * 1000000ll) + (F1 * 10000ll) + (F2 * 100ll) + R;
+
+    int parsed_Vint = K / 1000000ll;
+    int parsed_F1 = (K / 10000ll) % 100;
+    int parsed_F2 = (K / 100ll) % 100;
+    int retrieved_R = K % 100;
+    char C1 = 65 + (Vint % 26);
+    char C2 = 90 - (R % 26);
+
+    float Vfloat = static_cast<float>(parsed_Vint) +
+                   static_cast<float>(parsed_F1) / 100 +
+                   static_cast<float>(parsed_F2) / 10000;
+    double Vdouble = static_cast<double>(parsed_Vint) + parsed_F1 / 100.0 +
+                     parsed_F2 / 10000.0;
+    int is_exact = (Vfloat == Vdouble);
+
+    int Penalty = (1 - is_exact) * 25;
+    int Threat = R + Penalty + (1.5 * Vdouble);
+
+    cout << "\nTelemetry Key K: " << K;
+    cout << "\nStatus Tag: " << C1 << C2;
+    cout << "\nPrecision Match Flag: " << is_exact;
+    cout << "\nThreat Rating: " << Threat << "\n";
+
+    break;
+  }
 
   case 3:
 

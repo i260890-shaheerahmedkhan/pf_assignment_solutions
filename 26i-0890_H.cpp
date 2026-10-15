@@ -306,14 +306,33 @@ int main() {
     break;
   }
 
-  case 3:
+  case 3: {
 
     break;
+  }
 
-  case 4:
+  case 4: {
+
+    int n;
+    cout << "\nEnter a number: ";
+    cin >> n;
+
+    for (int i = 1; i <= n; i++) {
+      for (int j = 1; j <= n; j++) {
+        if ((i == 1) || (i == n) || (j == 1) || (j == n) ||
+            (((i == ((n + 1) / 2)) || (j == ((n + 1) / 2))) &&
+             (((n - 2) / 2) % 2 == 1)))
+          cout << "* ";
+        else if (((i & 1) && (j <= i)) || ((j & 1) && (i <= j)))
+          cout << "* ";
+        else
+          cout << "  ";
+      }
+      cout << "\n";
+    }
 
     break;
-
+  }
   case 5:
 
     break;

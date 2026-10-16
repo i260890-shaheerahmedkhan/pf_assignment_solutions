@@ -308,6 +308,19 @@ int main() {
 
   case 3: {
 
+    int murVisitedBoilerRoom = 0, murVisitedCargoHold = 0,
+        murVisitedThirdClass = 0, murVisitedDiningClass = 0,
+        murVisitedPromenadeDeck = 0, murVisitedBridge = 0,
+        murVisitedLifeboatDeck = 0, murVisitedCrowsNest = 0,
+        maryVisitedBoilerRoom = 0, maryVisitedCargoHold = 0,
+        maryVisitedThirdClass = 0, maryVisitedDiningSaloon = 0,
+        maryVisitedPromenadeDeck = 0, maryVisitedBridge = 0,
+        maryVisitedLifeboatDeck = 0, maryVisitedCrowsNest = 0;
+
+    int murCurrent = 0, maryCurrent = 0;
+    int boilerRoom = 0, cargoHold = 1, thirdClass = 2, diningClass = 3,
+        promenadeDeck = 4, bridge = 5, lifeboatDeck = 6, crowsNeck = 7;
+
     break;
   }
 

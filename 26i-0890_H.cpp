@@ -317,13 +317,26 @@ int main() {
     cout << "\nEnter a number: ";
     cin >> n;
 
+    int median = (n + 1) / 2;
+    int middle = ((((n - 2) / 2) % 2) == 1);
+
     for (int i = 1; i <= n; i++) {
       for (int j = 1; j <= n; j++) {
+
+        int leftUpperSquare = (((i < median) && (i & 1) && (j <= i)) ||
+                               ((j < median) && (j & 1) && (i <= j)));
+        int rightLowerSquare = (((i > median) && (i & 1) && (i <= j)) ||
+                                ((j > median) && (j & 1) && (j <= i)));
+        int leftLowerSquare = ((i > median) && (i & 1) && (j <= n - i + 1)) ||
+                              ((j < median) && (j & 1) && (i >= n - j + 1));
+        int rightUpperSquare = ((i < median) && (i & 1) && (j >= n - i + 1)) ||
+                               ((j > median) && (j & 1) && (i <= n - j + 1));
+
         if ((i == 1) || (i == n) || (j == 1) || (j == n) ||
-            (((i == ((n + 1) / 2)) || (j == ((n + 1) / 2))) &&
-             (((n - 2) / 2) % 2 == 1)))
+            (((i == median) || (j == median)) && middle))
           cout << "* ";
-        else if (((i & 1) && (j <= i)) || ((j & 1) && (i <= j)))
+        else if (leftUpperSquare || rightLowerSquare || leftLowerSquare ||
+                 rightUpperSquare)
           cout << "* ";
         else
           cout << "  ";

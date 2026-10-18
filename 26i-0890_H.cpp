@@ -309,7 +309,7 @@ int main() {
   case 3: {
 
     int murVisitedBoilerRoom = 0, murVisitedCargoHold = 0,
-        murVisitedThirdClass = 0, murVisitedDiningClass = 0,
+        murVisitedThirdClass = 0, murVisitedDiningSaloon = 0,
         murVisitedPromenadeDeck = 0, murVisitedBridge = 0,
         murVisitedLifeboatDeck = 0, murVisitedCrowsNest = 0,
         maryVisitedBoilerRoom = 0, maryVisitedCargoHold = 0,
@@ -318,8 +318,253 @@ int main() {
         maryVisitedLifeboatDeck = 0, maryVisitedCrowsNest = 0;
 
     int murCurrent = 0, maryCurrent = 0;
-    int boilerRoom = 0, cargoHold = 1, thirdClass = 2, diningClass = 3,
-        promenadeDeck = 4, bridge = 5, lifeboatDeck = 6, crowsNeck = 7;
+    int boilerRoom = 0, cargoHold = 1, thirdClass = 2, diningSaloon = 3,
+        promenadeDeck = 4, bridge = 5, lifeboatDeck = 6, crowsNest = 7;
+    int murFrozen = 0, maryFrozen = 0;
+
+    // Murdoch
+    cout << "Murdoch path: Boiler Room";
+
+    // Move 1
+    switch (murFrozen) {
+    case 0:
+      switch (murCurrent) {
+      case 0:
+        murCurrent = cargoHold;
+        murVisitedCargoHold = 1;
+        cout << " -> Cargo Hold";
+        break;
+      }
+      switch (murCurrent) {
+      case 6:
+        cout << " Rescued";
+        murFrozen = 1;
+        break;
+      }
+      break;
+    }
+
+    // Move 2
+    switch (murFrozen) {
+    case 0:
+      switch (murCurrent) {
+      case 1:
+        switch (murVisitedBoilerRoom) {
+        case 0:
+          murCurrent = boilerRoom;
+          murVisitedBoilerRoom = 1;
+          cout << " -> Boiler Room";
+          break;
+        }
+        break;
+      }
+      switch (murCurrent) {
+      case 6:
+        cout << " Rescued";
+        murFrozen = 1;
+        break;
+      }
+      break;
+    }
+
+    // Move 3
+    switch (murFrozen) {
+    case 0:
+      switch (murCurrent) {
+      case 0:
+        switch (murVisitedThirdClass) {
+        case 0:
+          murCurrent = thirdClass;
+          murVisitedThirdClass = 1;
+          cout << " -> Third Class";
+          break;
+        }
+        break;
+      }
+      switch (murCurrent) {
+      case 6:
+        cout << " Rescued";
+        murFrozen = 1;
+        break;
+      }
+      break;
+    }
+
+    // Move 4
+    switch (murFrozen) {
+    case 0:
+      switch (murCurrent) {
+      case 2:
+        switch (murVisitedBridge) {
+        case 0:
+          cout << " WaterRising";
+          murCurrent = bridge;
+          murVisitedBridge = 1;
+          cout << " -> Bridge";
+          break;
+        }
+        break;
+      }
+      switch (murCurrent) {
+      case 6:
+        cout << " Rescued";
+        murFrozen = 1;
+        break;
+      }
+      break;
+    }
+
+    // Move 5
+    switch (murFrozen) {
+    case 0:
+      switch (murCurrent) {
+      case 5:
+        switch (murVisitedLifeboatDeck) {
+        case 0:
+          murCurrent = lifeboatDeck;
+          murVisitedLifeboatDeck = 1;
+          cout << " -> Lifeboat Deck";
+          break;
+        }
+        break;
+      }
+      switch (murCurrent) {
+      case 6:
+        cout << " Rescued";
+        murFrozen = 1;
+        break;
+      }
+      break;
+    }
+
+    // Move 6
+    switch (murFrozen) {
+    case 0:
+      break;
+    }
+
+    // MARY
+    cout << "\nMary path: Boiler Room";
+
+    // Move 1
+    switch (maryFrozen) {
+    case 0:
+      switch (maryCurrent) {
+      case 0:
+        maryCurrent = cargoHold;
+        maryVisitedCargoHold = 1;
+        cout << " -> Cargo Hold";
+        break;
+      }
+      switch (maryCurrent) {
+      case 6:
+        cout << " Rescued";
+        maryFrozen = 1;
+        break;
+      }
+      break;
+    }
+
+    // Move 2
+    switch (maryFrozen) {
+    case 0:
+      switch (maryCurrent) {
+      case 1:
+        switch (maryVisitedThirdClass) {
+        case 0:
+          maryCurrent = boilerRoom;
+          maryVisitedBoilerRoom = 1;
+          cout << " -> Boiler Room";
+          break;
+        }
+        break;
+      }
+      switch (maryCurrent) {
+      case 6:
+        cout << " Rescued";
+        maryFrozen = 1;
+        break;
+      }
+      break;
+    }
+
+    // Move 3
+    switch (maryFrozen) {
+    case 0:
+      switch (maryCurrent) {
+      case 0:
+        switch (maryVisitedThirdClass) {
+        case 0:
+          maryCurrent = thirdClass;
+          maryVisitedThirdClass = 1;
+          cout << " -> Third Class";
+          break;
+        }
+        break;
+      }
+      switch (maryCurrent) {
+      case 6:
+        cout << " Rescued";
+        maryFrozen = 1;
+        break;
+      }
+      break;
+    }
+
+    // Move 4
+    switch (maryFrozen) {
+    case 0:
+      switch (maryCurrent) {
+      case 2:
+        switch (maryVisitedBridge) {
+        case 0:
+          cout << " WaterRising";
+          maryCurrent = bridge;
+          maryVisitedBridge = 1;
+          cout << " -> Bridge";
+          break;
+        }
+        break;
+      }
+      switch (maryCurrent) {
+      case 6:
+        cout << " Rescued";
+        maryFrozen = 1;
+        break;
+      }
+      break;
+    }
+
+    // Move 5
+    switch (maryFrozen) {
+    case 0:
+      switch (maryCurrent) {
+      case 5:
+        switch (maryVisitedLifeboatDeck) {
+        case 0:
+          maryCurrent = lifeboatDeck;
+          maryVisitedLifeboatDeck = 1;
+          cout << " -> Lifeboat Deck";
+          break;
+        }
+        break;
+      }
+      switch (maryCurrent) {
+      case 6:
+        cout << " Rescued";
+        maryFrozen = 1;
+        break;
+      }
+      break;
+    }
+
+    // Move 6
+    switch (maryFrozen) {
+    case 0:
+      break;
+    }
+
+    cout << "\n";
 
     break;
   }
@@ -359,9 +604,493 @@ int main() {
 
     break;
   }
-  case 5:
+  case 5: {
+
+    int choice;
+    cout << "1. The House\n";
+    cout << "2. The train\n";
+    cout << "Choose: ";
+    cin >> choice;
+
+    if ((choice != 1) && (choice != 2)) {
+      cout << "Invalid choice\n";
+      return 0;
+    }
+
+    // the house
+
+    if (choice == 1) {
+      int houseWidth, houseHeight;
+      int doorWidth, doorHeight;
+      int atticHeight, nChimneys, walkwayHeight;
+
+      cout << "\nEnter the height of the house: ";
+      cin >> houseHeight;
+
+      cout << "Enter the width of the house: ";
+      cin >> houseWidth;
+
+      cout << "Enter the door width: ";
+      cin >> doorWidth;
+
+      cout << "Enter the door height: ";
+      cin >> doorHeight;
+
+      cout << "Enter the number of chimneys: ";
+      cin >> nChimneys;
+
+      cout << "Enter the height of the attic: ";
+      cin >> atticHeight;
+
+      cout << "Enter the walkway height: ";
+      cin >> walkwayHeight;
+
+      // Input Validation
+      if ((houseWidth <= 0) || (houseHeight <= 0) || (doorWidth < 6) ||
+          (doorHeight < 5) || (atticHeight < 6) || (nChimneys < 0) ||
+          (walkwayHeight < 1)) {
+
+        cout << "Invalid inputs, house cannot be printed correctly\n";
+        return 0;
+      }
+
+      int bodyHeight = houseHeight - atticHeight - 1 - walkwayHeight;
+
+      if (bodyHeight < 6 || doorHeight > bodyHeight ||
+          houseWidth < doorWidth + 24 || houseWidth < 2 * atticHeight + 2 ||
+          (houseWidth - doorWidth) % 2 != 0) {
+
+        cout << "Invalid lengths, house cannot be printed\n";
+        return 0;
+      }
+
+      // window positions and the door
+      int windowsPerSide = (houseWidth - doorWidth - 6) / 18;
+
+      int leftSideWidth = 9 * windowsPerSide + 1;
+      int rightSideStart = houseWidth - leftSideWidth;
+      int middleWidth = houseWidth - 2 * leftSideWidth;
+
+      int doorLeft = leftSideWidth + (middleWidth - doorWidth) / 2;
+
+      // the roof position
+      int roofCenter = (houseWidth - 2) / 2;
+      int atticBaseRow = atticHeight - 4;
+
+      // these are the available chimney positions
+      int availablePositions = roofCenter - atticBaseRow - 6;
+
+      int leftChimneySlots =
+          (availablePositions >= 0) ? availablePositions / 7 + 1 : 0;
+
+      availablePositions = houseWidth - 6 - (roofCenter + atticBaseRow + 2);
+
+      int rightChimneySlots =
+          (availablePositions >= 0) ? (availablePositions / 7 + 1) : 0;
+
+      if (doorLeft < (walkwayHeight + 2) ||
+          nChimneys > (leftChimneySlots + rightChimneySlots)) {
+
+        cout << "The door or chimneys do not fit.\n";
+        return 0;
+      }
+
+      int totalRows = atticHeight + bodyHeight + 1 + walkwayHeight;
+
+      // this prints the rows of the house
+      for (int row = 0; row < totalRows; row++) {
+
+        for (int column = 0; column < houseWidth; column++) {
+          char character = ' ';
+
+          // this is the prestigious roof
+          if (row < atticHeight) {
+            if (column == (roofCenter - row))
+              character = '/';
+
+            if (column == (roofCenter + 1 + row))
+              character = '\\';
+          }
+
+          if (row == atticBaseRow) {
+            character = '_';
+
+            if (column == (roofCenter - atticBaseRow))
+              character = '/';
+
+            if (column == (roofCenter + 1 + atticBaseRow))
+              character = '\\';
+          }
+
+          if ((row > atticBaseRow) && (row < atticHeight)) {
+            if (column == 0 || column == (houseWidth - 1))
+              character = '|';
+            else if (column < (roofCenter - row))
+              character = ':';
+            else if ((column >= (roofCenter + row + 2)) &&
+                     (column <= (houseWidth - 2)))
+              character = ':';
+          }
+
+          if ((row == atticHeight - 1) &&
+              (column >= (roofCenter - (atticHeight - 1) + 1)) &&
+              (column <= (roofCenter + atticHeight - 1))) {
+            character = '_';
+          }
+
+          // base of the attic
+          if ((row == atticBaseRow) &&
+              (column == roofCenter || column == roofCenter + 1))
+            character = '_';
+
+          if ((row == atticBaseRow + 1) &&
+              (column == roofCenter - 1 || column == roofCenter + 2))
+            character = '|';
+
+          if ((row == atticBaseRow + 2) && (column >= roofCenter - 1) &&
+              (column <= roofCenter + 2))
+            character = '=';
+
+          // this prints the chimneys
+          for (int i = 0; i < nChimneys; i++) {
+
+            int smallerSlotCount = (leftChimneySlots < rightChimneySlots)
+                                       ? leftChimneySlots
+                                       : rightChimneySlots;
+
+            int chimneyStart;
+
+            if (i < 2 * smallerSlotCount) {
+              int slotIndex = i / 2;
+
+              chimneyStart =
+                  (i % 2 == 0)
+                      ? (roofCenter - atticBaseRow - 6 - 7 * slotIndex)
+                      : (roofCenter + atticBaseRow + 2 + 7 * slotIndex);
+            } else {
+              int extraSlot = i - 2 * smallerSlotCount;
+
+              if (leftChimneySlots > rightChimneySlots)
+                chimneyStart = roofCenter - atticBaseRow - 6 -
+                               7 * (smallerSlotCount + extraSlot);
+              else
+                chimneyStart = roofCenter + atticBaseRow + 2 +
+                               7 * (smallerSlotCount + extraSlot);
+            }
+
+            if (row == atticBaseRow - 2) {
+              if ((column == chimneyStart + 2) || (column == chimneyStart + 4))
+                character = ')';
+            }
+
+            if ((row == atticBaseRow - 1) && (column >= chimneyStart + 1) &&
+                (column <= chimneyStart + 5))
+              character = '=';
+
+            if ((row == atticBaseRow) && (column >= chimneyStart) &&
+                (column <= chimneyStart + 5)) {
+
+              int chimneyColumn = column - chimneyStart;
+
+              character = ((chimneyColumn == 0) ||
+                           ((chimneyColumn >= 2) && (chimneyColumn <= 4)))
+                              ? '_'
+                              : '|';
+            }
+          }
+
+          // now for the windows and walls of the house
+          if ((row >= atticHeight) && (row < (atticHeight + bodyHeight))) {
+
+            int bodyRow = row - atticHeight;
+
+            if (column == 0 || (column == houseWidth - 1))
+              character = '|';
+
+            for (int k = 0; k < windowsPerSide; k++) {
+
+              // this is the left window
+              int leftWindowStart = 1 + 9 * k;
+
+              if ((bodyRow < 5) && (column >= leftWindowStart) &&
+                  (column < leftWindowStart + 8)) {
+
+                int windowColumn = column - leftWindowStart;
+
+                if (bodyRow == 0)
+                  character = '_';
+                else if (bodyRow == 1)
+                  character =
+                      ((windowColumn == 0) || (windowColumn == 7)) ? ' ' : '_';
+                else if (bodyRow == 2)
+                  character = (windowColumn == 0 || windowColumn == 3 ||
+                               windowColumn == 7)
+                                  ? '|'
+                                  : ' ';
+                else if (bodyRow == 3) {
+                  if (windowColumn == 0 || windowColumn == 7)
+                    character = '|';
+                  else if (windowColumn == 3)
+                    character = '+';
+                  else
+                    character = '-';
+                } else if (bodyRow == 4) {
+                  if (windowColumn == 0 || windowColumn == 3 ||
+                      windowColumn == 7)
+                    character = '|';
+                  else
+                    character = '_';
+                }
+              }
+
+              if (column == leftWindowStart + 8)
+                character = '|';
+
+              // this gives the right window
+              int rightWindowStart = rightSideStart + 9 * k;
+
+              if (column == rightWindowStart)
+                character = '|';
+
+              if (bodyRow < 5 && column >= rightWindowStart + 1 &&
+                  column <= rightWindowStart + 8) {
+
+                int windowColumn = column - rightWindowStart - 1;
+
+                if (bodyRow == 0)
+                  character = '_';
+                else if (bodyRow == 1)
+                  character =
+                      (windowColumn == 0 || windowColumn == 7) ? ' ' : '_';
+                else if (bodyRow == 2)
+                  character = (windowColumn == 0 || windowColumn == 4 ||
+                               windowColumn == 7)
+                                  ? '|'
+                                  : ' ';
+                else if (bodyRow == 3) {
+                  if (windowColumn == 0 || windowColumn == 7)
+                    character = '|';
+                  else if (windowColumn == 4)
+                    character = '+';
+                  else
+                    character = '-';
+                } else if (bodyRow == 4) {
+                  if (windowColumn == 0 || windowColumn == 4 ||
+                      windowColumn == 7)
+                    character = '|';
+                  else
+                    character = '_';
+                }
+              }
+            }
+          }
+
+          // now for the front door
+          int doorTopRow = atticHeight + bodyHeight - doorHeight;
+
+          if ((row >= doorTopRow) && (row < atticHeight + bodyHeight) &&
+              (column >= doorLeft) && (column < doorLeft + doorWidth)) {
+
+            int doorRow = row - doorTopRow;
+            int doorColumn = column - doorLeft;
+
+            int doorCenter = (doorWidth - 4) / 2;
+
+            if (doorRow == 0) {
+              character = (doorColumn == 0 || (doorColumn == doorWidth - 1))
+                              ? ' '
+                              : '_';
+            } else if (doorRow == 1) {
+              if (doorColumn == 0)
+                character = '/';
+              else if (doorColumn == doorWidth - 1)
+                character = '\\';
+              else if ((doorColumn == doorCenter + 1) ||
+                       (doorColumn == doorCenter + 2))
+                character = '|';
+            } else if (doorRow == 2) {
+              character = '=';
+            } else if (doorRow == doorHeight - 2) {
+              if (doorColumn == 0 || doorColumn == doorWidth - 1)
+                character = '|';
+              else if (doorColumn == doorWidth - 2)
+                character = 'o';
+            } else if (doorRow == doorHeight - 1) {
+              character = (doorColumn == 0 || (doorColumn == doorWidth - 1))
+                              ? '|'
+                              : '_';
+            } else {
+              character = (doorColumn == 0 || (doorColumn == doorWidth - 1))
+                              ? '|'
+                              : ' ';
+            }
+          }
+
+          // finally the ground row
+          int groundRow = atticHeight + bodyHeight;
+
+          if (row == groundRow) {
+            if (column == 0)
+              character = '(';
+            else if (column == houseWidth - 1)
+              character = ')';
+            else
+              character = '-';
+
+            if (column == doorLeft - 2 || column == doorLeft + doorWidth + 1)
+              character = '|';
+
+            if (column >= doorLeft - 1 && column <= doorLeft + doorWidth)
+              character = '_';
+          }
+
+          // this is the last piece , the walkway
+          if (row > groundRow) {
+            int walkwayRow = row - groundRow - 1;
+
+            if (column == 0)
+              character = '(';
+
+            if (column == houseWidth - 1)
+              character = ')';
+
+            if (walkwayRow == walkwayHeight - 1 && column >= 1 &&
+                column <= houseWidth - 2)
+              character = '_';
+
+            if (column >= doorLeft - 1 - walkwayRow &&
+                column <= doorLeft + doorWidth + walkwayRow)
+              character = '_';
+
+            if (column == doorLeft - 2 - walkwayRow)
+              character = '/';
+
+            if (column == doorLeft + doorWidth + 1 + walkwayRow)
+              character = '\\';
+          }
+
+          cout << character;
+        }
+
+        cout << '\n';
+      }
+    }
+
+    // the train
+
+    else {
+      int trainCode;
+
+      cout << "\nEnter the four-digit train design (e.g. 1234): ";
+      cin >> trainCode;
+
+      // Exactly four digits are required.
+      if (trainCode < 1000 || trainCode > 9999) {
+        cout << "Invalid train code. Enter exactly four digits.\n";
+        return 0;
+      }
+
+      int firstCompartment = trainCode / 1000;
+      int secondCompartment = (trainCode / 100) % 10;
+      int thirdCompartment = (trainCode / 10) % 10;
+      int fourthCompartment = trainCode % 10;
+
+      if (firstCompartment < 1 || firstCompartment > 4 ||
+          secondCompartment < 1 || secondCompartment > 4 ||
+          thirdCompartment < 1 || thirdCompartment > 4 ||
+          fourthCompartment < 1 || fourthCompartment > 4) {
+
+        cout << "Invalid train code. Every digit must be 1, 2, 3, or 4.\n";
+        return 0;
+      }
+
+      // this prints six rows of the four compartments
+      for (int row = 0; row < 6; row++) {
+        for (int compartmentPosition = 0; compartmentPosition < 4;
+             compartmentPosition++) {
+
+          int compartmentType;
+
+          if (compartmentPosition == 0)
+            compartmentType = firstCompartment;
+          else if (compartmentPosition == 1)
+            compartmentType = secondCompartment;
+          else if (compartmentPosition == 2)
+            compartmentType = thirdCompartment;
+          else
+            compartmentType = fourthCompartment;
+
+          // 1, The engine
+          if (compartmentType == 1) {
+            if (row == 0)
+              cout << "      o O";
+            else if (row == 1)
+              cout << "   _[]_ ________";
+            else if (row == 2)
+              cout << "  |____|_|[] []|";
+            else if (row == 3)
+              cout << "  |_()_|_|______|";
+            else if (row == 4)
+              cout << "<==============]";
+            else
+              cout << "  (O)(O)         ";
+          }
+
+          // 2, The cabin
+          else if (compartmentType == 2) {
+            if (row == 0)
+              cout << " ";
+            else if (row == 1)
+              cout << " ____________";
+            else if (row == 2)
+              cout << "|[] [] [] [] |";
+            else if (row == 3)
+              cout << "|[] [] [] [] |";
+            else if (row == 4)
+              cout << "--|____________|";
+            else
+              cout << " (O)(O)        ";
+          }
+
+          // 3, The cargo
+          else if (compartmentType == 3) {
+            if (row == 0)
+              cout << " ";
+            else if (row == 1)
+              cout << " |============|";
+            else if (row == 2)
+              cout << " | | [] | |";
+            else if (row == 3)
+              cout << " | | || | |";
+            else if (row == 4)
+              cout << "-|__|__||__|__|--";
+            else
+              cout << " (O)  (O)  (O)   ";
+          }
+
+          // 4, Vip carriage
+          else {
+            if (row == 0)
+              cout << " ";
+            else if (row == 1)
+              cout << " _[__]_";
+            else if (row == 2)
+              cout << " | .-========-.";
+            else if (row == 3)
+              cout << " | ( ~~~~~~~~ )";
+            else if (row == 4)
+              cout << "-- '-========-'";
+            else
+              cout << "   (O)  (O)     ";
+          }
+        }
+
+        cout << '\n';
+      }
+    }
 
     break;
+  }
 
   case 6:
 

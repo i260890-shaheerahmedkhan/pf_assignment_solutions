@@ -1100,9 +1100,460 @@ int main() {
 
     break;
 
-  case 8:
+  case 8: {
+
+    // These are the characters
+    char pacman = '@', blinky = 'B', pinky = 'P', inky = 'I', clyde = 'C';
+
+    // Their x and y coordinates
+    int pacmanX, pacmanY, blinkyX, blinkyY, pinkyX, pinkyY, inkyX, inkyY,
+        clydeX, clydeY;
+
+    bool gameOver = false; // a flag for checking the game's continuity
+    bool pacmanWon = false;
+    bool blinkyMovingRight = true; // a flag for tracing blinky's direction
+
+    // the dimensions of the board
+    const int BOARD_WIDTH = 20;
+    const int BOARD_HEIGHT = 10;
+
+    // the random number generator
+    unsigned int seed;
+
+    cout << "\nEnter a seed for a the random number generator: ";
+    cin >> seed;
+
+    seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+    // now assigning the random coordinates for all characters
+
+    // pacman coordinates
+    pacmanX = seed % BOARD_WIDTH;
+
+    seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+    pacmanY = seed % BOARD_HEIGHT;
+
+    // blinky coordinates
+    seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+    blinkyX = seed % BOARD_WIDTH;
+
+    seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+    blinkyY = 2;
+
+    // pinky coordinates
+    seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+    pinkyX = seed % BOARD_WIDTH;
+
+    seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+    pinkyY = seed % BOARD_HEIGHT;
+
+    // inky coordinates
+    seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+    inkyX = seed % BOARD_WIDTH;
+
+    seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+    inkyY = seed % BOARD_HEIGHT;
+
+    // clyde coordinates
+    seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+    clydeX = seed % BOARD_WIDTH;
+
+    seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+    clydeY = seed % BOARD_HEIGHT;
+
+    // now checking for colliding positions and adjusting them
+
+    do {
+      // blinky coordinates
+
+      seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+      blinkyX = seed % BOARD_WIDTH;
+
+      seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+      blinkyY = 2;
+
+      // pinky coordinates
+      seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+      pinkyX = seed % BOARD_WIDTH;
+
+      seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+      pinkyY = seed % BOARD_HEIGHT;
+
+      // inky coordinates
+      seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+      inkyX = seed % BOARD_WIDTH;
+
+      seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+      inkyY = seed % BOARD_HEIGHT;
+
+      // clyde coordinates
+      seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+      clydeX = seed % BOARD_WIDTH;
+
+      seed = (seed * 1103515245u + 12345u) % 2147483648u;
+
+      clydeY = seed % BOARD_HEIGHT;
+
+    } while (((pacmanX == blinkyX) && (pacmanY == blinkyY)) ||
+             ((pacmanX == pinkyX) && (pacmanY == pinkyY)) ||
+             ((pacmanX == inkyX) && (pacmanY == inkyY)) ||
+             ((pacmanX == clydeX) && (pacmanY == clydeY)) ||
+             ((blinkyX == pinkyX) && (blinkyY == pinkyY)) ||
+             ((blinkyX == inkyX) && (blinkyY == inkyY)) ||
+             ((blinkyX == clydeX) && (blinkyY == clydeY)) ||
+             ((pinkyX == inkyX) && (pinkyY == inkyY)) ||
+             ((pinkyX == clydeX) && (pinkyY == clydeY)) ||
+             ((inkyX == clydeX) && (inkyY == clydeY)));
+
+    // this will move pacman from the keyboard
+    char moveDirection;
+
+    while (!gameOver) {
+      cout << "\nEnter a direction to move pacman (W A S D): ";
+      cin >> moveDirection;
+
+      // these are the switches, the main systems that control movement
+
+      // this moves pacman
+      switch (moveDirection) {
+
+      case 'w':
+      case 'W': {
+        pacmanY--;
+
+        (pacmanY > 0) ? 0 : (pacmanY = 0);
+
+        break;
+      }
+
+      case 'a':
+      case 'A': {
+        pacmanX--;
+
+        (pacmanX > 0) ? 0 : (pacmanX = 0);
+
+        break;
+      }
+
+      case 's':
+      case 'S': {
+        pacmanY++;
+
+        (pacmanY < BOARD_HEIGHT - 1) ? 0 : (pacmanY = BOARD_HEIGHT - 1);
+
+        break;
+      }
+
+      case 'd':
+      case 'D': {
+        pacmanX++;
+
+        (pacmanX < BOARD_WIDTH - 1) ? 0 : (pacmanX = BOARD_WIDTH - 1);
+
+        break;
+      }
+
+      default:
+        cout << "\nInvalid input, you pressed the wrong key, only \"w a s d\" "
+                "move "
+                "pacman";
+        break;
+      }
+
+      // this moves clyde
+      switch (moveDirection) {
+
+      case 'w':
+      case 'W': {
+        clydeY--;
+
+        (clydeY > 0) ? 0 : (clydeY = 0);
+
+        break;
+      }
+
+      case 'a':
+      case 'A': {
+        clydeX--;
+
+        (clydeX > 0) ? 0 : (clydeX = 0);
+
+        break;
+      }
+
+      case 's':
+      case 'S': {
+        clydeY++;
+
+        (clydeY < BOARD_HEIGHT - 1) ? 0 : (clydeY = BOARD_HEIGHT - 1);
+
+        break;
+      }
+
+      case 'd':
+      case 'D': {
+        clydeX++;
+
+        (clydeX < BOARD_WIDTH - 1) ? 0 : (clydeX = BOARD_WIDTH - 1);
+
+        break;
+      }
+
+      default:
+        cout << "\nInvalid input";
+        break;
+      }
+
+      ((pacmanX == clydeX) && (pacmanY == clydeY))
+          ? (gameOver = true, pacmanWon = true)
+          : 0;
+
+      switch (gameOver) {
+
+      case 0: {
+
+        // now i will calculate the distance of all characters from pacman
+
+        double inkysDistance = sqrt(((inkyX - pacmanX) * (inkyX - pacmanX)) +
+                                    ((inkyY - pacmanY) * (inkyY - pacmanY)));
+        double pinkysDistance = sqrt(((pinkyX - pacmanX) * (pinkyX - pacmanX)) +
+                                     ((pinkyY - pacmanY) * (pinkyY - pacmanY)));
+        double blinkysDistance =
+            sqrt(((blinkyX - pacmanX) * (blinkyX - pacmanX)) +
+                 ((blinkyY - pacmanY) * (blinkyY - pacmanY)));
+        double clydesDistance = sqrt(((clydeX - pacmanX) * (clydeX - pacmanX)) +
+                                     ((clydeY - pacmanY) * (clydeY - pacmanY)));
+
+        // this checks if inky is the closest one or not
+        bool inkyIsClosest = 0;
+
+        ((inkysDistance < pinkysDistance) &&
+         (inkysDistance < blinkysDistance) && (inkysDistance < clydesDistance))
+            ? (inkyIsClosest = 1)
+            : 0;
+
+        // this moves inky near to pacman if no other one is near
+        switch (inkyIsClosest) {
+
+        case 1: {
+
+          // this checks if a cell is free near pacman
+          bool cellFreeNearPacman = 0;
+
+          // this checks the block above pacman
+
+          int candidateX = pacmanX, candidateY = pacmanY - 1;
+
+          ((!((blinkyX == candidateX) && (blinkyY == candidateY))) &&
+           (!((pinkyX == candidateX) && (pinkyY == candidateY))) &&
+           (!((clydeX == candidateX) && (clydeY == candidateY))) &&
+           ((candidateX >= 0 && candidateX < BOARD_WIDTH) &&
+            (candidateY >= 0 && (candidateY < BOARD_HEIGHT)))) &&
+              (cellFreeNearPacman = 1);
+
+          cellFreeNearPacman && (inkyX = candidateX, inkyY = candidateY);
+
+          // this checks the block to the upper right corner of pacman
+          (!cellFreeNearPacman) &&
+              (candidateX = pacmanX + 1, candidateY = pacmanY - 1,
+
+               ((!((blinkyX == candidateX) && (blinkyY == candidateY))) &&
+                (!((pinkyX == candidateX) && (pinkyY == candidateY))) &&
+                (!((clydeX == candidateX) && (clydeY == candidateY))) &&
+                ((candidateX >= 0 && candidateX < BOARD_WIDTH) &&
+                 (candidateY >= 0 && (candidateY < BOARD_HEIGHT)))) &&
+                   (cellFreeNearPacman = 1),
+
+               cellFreeNearPacman && (inkyX = candidateX, inkyY = candidateY));
+
+          // this checks the block to the right of pacman
+
+          (!cellFreeNearPacman) &&
+              (candidateX = pacmanX + 1, candidateY = pacmanY,
+
+               ((!((blinkyX == candidateX) && (blinkyY == candidateY))) &&
+                (!((pinkyX == candidateX) && (pinkyY == candidateY))) &&
+                (!((clydeX == candidateX) && (clydeY == candidateY))) &&
+                ((candidateX >= 0 && candidateX < BOARD_WIDTH) &&
+                 (candidateY >= 0 && (candidateY < BOARD_HEIGHT)))) &&
+                   (cellFreeNearPacman = 1),
+
+               cellFreeNearPacman && (inkyX = candidateX, inkyY = candidateY));
+
+          // this checks the block to the right lower corner of pacman
+          (!cellFreeNearPacman) &&
+              (candidateX = pacmanX + 1, candidateY = pacmanY + 1,
+
+               ((!((blinkyX == candidateX) && (blinkyY == candidateY))) &&
+                (!((pinkyX == candidateX) && (pinkyY == candidateY))) &&
+                (!((clydeX == candidateX) && (clydeY == candidateY))) &&
+                ((candidateX >= 0 && candidateX < BOARD_WIDTH) &&
+                 (candidateY >= 0 && (candidateY < BOARD_HEIGHT)))) &&
+                   (cellFreeNearPacman = 1),
+               cellFreeNearPacman && (inkyX = candidateX, inkyY = candidateY));
+
+          // this checks the block below pacman
+          (!cellFreeNearPacman) &&
+              (candidateX = pacmanX, candidateY = pacmanY + 1,
+
+               ((!((blinkyX == candidateX) && (blinkyY == candidateY))) &&
+                (!((pinkyX == candidateX) && (pinkyY == candidateY))) &&
+                (!((clydeX == candidateX) && (clydeY == candidateY))) &&
+                ((candidateX >= 0 && candidateX < BOARD_WIDTH) &&
+                 (candidateY >= 0 && (candidateY < BOARD_HEIGHT)))) &&
+                   (cellFreeNearPacman = 1),
+               cellFreeNearPacman && (inkyX = candidateX, inkyY = candidateY));
+
+          // this checks the block to the lower left corner of pacman
+          (!cellFreeNearPacman) &&
+              (candidateX = pacmanX - 1, candidateY = pacmanY + 1,
+
+               ((!((blinkyX == candidateX) && (blinkyY == candidateY))) &&
+                (!((pinkyX == candidateX) && (pinkyY == candidateY))) &&
+                (!((clydeX == candidateX) && (clydeY == candidateY))) &&
+                ((candidateX >= 0 && candidateX < BOARD_WIDTH) &&
+                 (candidateY >= 0 && (candidateY < BOARD_HEIGHT)))) &&
+                   (cellFreeNearPacman = 1),
+
+               cellFreeNearPacman && (inkyX = candidateX, inkyY = candidateY));
+
+          // this checks the block to the left of pacman
+          (!cellFreeNearPacman) &&
+              (candidateX = pacmanX - 1, candidateY = pacmanY,
+
+               ((!((blinkyX == candidateX) && (blinkyY == candidateY))) &&
+                (!((pinkyX == candidateX) && (pinkyY == candidateY))) &&
+                (!((clydeX == candidateX) && (clydeY == candidateY))) &&
+                ((candidateX >= 0 && candidateX < BOARD_WIDTH) &&
+                 (candidateY >= 0 && (candidateY < BOARD_HEIGHT)))) &&
+                   (cellFreeNearPacman = 1),
+
+               cellFreeNearPacman && (inkyX = candidateX, inkyY = candidateY));
+
+          // this checks the block to the upper left corner of pacman
+          (!cellFreeNearPacman) &&
+              (candidateX = pacmanX - 1, candidateY = pacmanY - 1,
+
+               ((!((blinkyX == candidateX) && (blinkyY == candidateY))) &&
+                (!((pinkyX == candidateX) && (pinkyY == candidateY))) &&
+                (!((clydeX == candidateX) && (clydeY == candidateY))) &&
+                ((candidateX >= 0 && candidateX < BOARD_WIDTH) &&
+                 (candidateY >= 0 && (candidateY < BOARD_HEIGHT)))) &&
+                   (cellFreeNearPacman = 1),
+
+               cellFreeNearPacman && (inkyX = candidateX, inkyY = candidateY));
+
+          break;
+        }
+        case 0:
+          break;
+        }
+
+        // check if inky is on the same block as pacman
+        ((pacmanX == inkyX) && (pacmanY == inkyY))
+            ? (gameOver = true, pacmanWon = false)
+            : 0;
+
+        break;
+      }
+      case 1:
+        break;
+      }
+
+      switch (gameOver) {
+
+      case 0: {
+
+        // this moves pinky in the direction of pacman
+
+        // this finds out the x and y distances of pinky from pacman
+
+        int pinkyXDistanceFromPacman = abs(pinkyX - pacmanX),
+            pinkyYDistanceFromPacman = abs(pinkyY - pacmanY);
+
+        (pinkyXDistanceFromPacman > pinkyYDistanceFromPacman)
+            ? ((pinkyX > pacmanX) ? (pinkyX--) : (pinkyX++))
+            : ((pinkyXDistanceFromPacman < pinkyYDistanceFromPacman)
+                   ? ((pinkyY > pacmanY) ? (pinkyY--) : (pinkyY++))
+                   : (((pinkyX > pacmanX) ? (pinkyX--) : (pinkyX++)),
+                      ((pinkyY > pacmanY) ? (pinkyY--) : (pinkyY++))));
+
+        // check if pinky has caught pacman
+        ((pacmanX == pinkyX) && (pacmanY == pinkyY))
+            ? (gameOver = true, pacmanWon = false)
+            : 0;
+
+        break;
+      }
+      case 1:
+        break;
+      }
+
+      switch (gameOver) {
+
+      case 0: {
+
+        // now for moving blinky
+
+        blinkyMovingRight
+            ? ((blinkyX == 19) ? (blinkyY = 7, blinkyMovingRight = false)
+                               : (blinkyX++))
+            : ((blinkyX == 0) ? (blinkyY = 2, blinkyMovingRight = true)
+                              : (blinkyX--));
+
+        // now check if blinky has caught pacman
+        ((pacmanX == blinkyX) && (pacmanY == blinkyY))
+            ? (gameOver = true, pacmanWon = false)
+            : 0;
+
+        break;
+      }
+      case 1:
+        break;
+      }
+
+      // now the board shall come forth into existence
+      cout << "\n";
+      for (int j = 0; j < BOARD_HEIGHT; j++) {
+        for (int i = 0; i < BOARD_WIDTH; i++) {
+          cout << (((i == pacmanX) && (j == pacmanY))
+                       ? pacman
+                       : (((i == blinkyX) && (j == blinkyY))
+                              ? blinky
+                              : (((i == pinkyX) && (j == pinkyY))
+                                     ? pinky
+                                     : (((i == inkyX) && (j == inkyY))
+                                            ? inky
+                                            : (((i == clydeX) && (j == clydeY))
+                                                   ? clyde
+                                                   : '*')))));
+        }
+
+        cout << "\n";
+      }
+    }
+
+    (pacmanWon) ? (cout << "\nPacman has Won!\n")
+                : (cout << "\nThe ghostbusters have won!\n");
 
     break;
+  }
 
   default:
 

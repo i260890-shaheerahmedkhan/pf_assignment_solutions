@@ -76,9 +76,9 @@ void question3() {
 
       int distance = min(k - 1, stars - k);
 
-      bool isStar = ((k == 1) || (k == stars) || (distance % 4 == 0));
-      bool isDot = ((distance % 4 == 3));
-      bool isDash = ((distance % 4 == 1));
+      bool isStar = (distance % 4 == 0);
+      bool isDot = (distance % 4 == 3);
+      bool isDash = (distance % 4 == 1);
       bool isO = (distance % 4 == 2);
 
       if (isStar)
@@ -103,9 +103,9 @@ void question3() {
     for (int k = 1; k <= stars; k++) {
       int distance = min(k - 1, stars - k);
 
-      bool isStar = ((k == 1) || (k == stars) || (distance % 4 == 0));
-      bool isDot = ((distance % 4 == 3));
-      bool isDash = ((distance % 4 == 1));
+      bool isStar = (distance % 4 == 0);
+      bool isDot = (distance % 4 == 3);
+      bool isDash = (distance % 4 == 1);
       bool isO = (distance % 4 == 2);
 
       if (isStar)

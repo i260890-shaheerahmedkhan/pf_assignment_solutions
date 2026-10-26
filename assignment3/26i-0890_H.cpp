@@ -2,7 +2,9 @@
 
 using namespace std;
 
-int question1();
+void question1();
+void question2();
+void question3();
 
 int main() {
 
@@ -19,6 +21,7 @@ int main() {
   case 2:
     break;
   case 3:
+    question3();
     break;
   case 4:
     break;
@@ -39,13 +42,13 @@ int main() {
   return 0;
 }
 
-int question1() {
+void question1() {
 
   int n;
   cout << "\nEnter n: ";
   cin >> n;
-  if (!((n & 1) || (n >= 2)))
-    return 1;
+  if (!((n & 1) || (n < 2)))
+    return;
 
   for (int i = 1; i <= n; i++) {
     for (int j = 1; j <= n; j++) {
@@ -53,6 +56,67 @@ int question1() {
     }
     cout << "\n";
   }
+}
 
-  return 0;
+void question3() {
+
+  int n;
+  cout << "\nEnter n: ";
+  cin >> n;
+  if (!(n & 1) || (n < 2))
+    return;
+
+  for (int i = 1; i <= n; i++) {
+    int stars = 2 * i - 1;
+    int spaces = n - i;
+
+    for (int j = 1; j <= spaces; j++)
+      cout << " ";
+    for (int k = 1; k <= stars; k++) {
+
+      int distance = min(k - 1, stars - k);
+
+      bool isStar = ((k == 1) || (k == stars) || (distance % 4 == 0));
+      bool isDot = ((distance % 4 == 3));
+      bool isDash = ((distance % 4 == 1));
+      bool isO = (distance % 4 == 2);
+
+      if (isStar)
+        cout << "*";
+      else if (isDot)
+        cout << ".";
+      else if (isDash)
+        cout << "-";
+      else if (isO)
+        cout << "o";
+    }
+
+    cout << "\n";
+  }
+
+  for (int i = n - 1; i >= 1; i--) {
+    int stars = 2 * i - 1;
+    int spaces = n - i;
+
+    for (int j = 1; j <= spaces; j++)
+      cout << " ";
+    for (int k = 1; k <= stars; k++) {
+      int distance = min(k - 1, stars - k);
+
+      bool isStar = ((k == 1) || (k == stars) || (distance % 4 == 0));
+      bool isDot = ((distance % 4 == 3));
+      bool isDash = ((distance % 4 == 1));
+      bool isO = (distance % 4 == 2);
+
+      if (isStar)
+        cout << "*";
+      else if (isDot)
+        cout << ".";
+      else if (isDash)
+        cout << "-";
+      else if (isO)
+        cout << "o";
+    }
+    cout << "\n";
+  }
 }

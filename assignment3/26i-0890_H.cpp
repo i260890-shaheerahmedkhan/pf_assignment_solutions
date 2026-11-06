@@ -50,9 +50,13 @@ void question1() {
   if (!((n & 1) || (n < 2)))
     return;
 
-  for (int i = 1; i <= n; i++) {
-    for (int j = 1; j <= n; j++) {
-      cout << i;
+  int bound = 2 * n - 1;
+  int c = n;
+
+  for (int i = 1; i <= bound; i++) {
+    for (int j = 1; j <= bound; j++) {
+      int d = min(min(i, min(j, bound - j + 1)), bound - i + 1);
+      cout << (d) % 10 << " ";
     }
     cout << "\n";
   }

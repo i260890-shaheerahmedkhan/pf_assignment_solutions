@@ -11,6 +11,7 @@ void question3();
 
 // utilities
 
+void row(int, int, int);
 void print_calendar(int, int);
 
 int main() {
@@ -87,7 +88,7 @@ void question2() {
     return;
   }
 
-  cout << "\t";
+  cout << "\t\b\b";
 
   switch (m) {
   case 1:
@@ -156,80 +157,57 @@ void question2() {
 void question3() {
 
   int n;
+
   cout << "\nEnter n: ";
   cin >> n;
-  if (!(n & 1) || (n < 2))
+
+  if ((n <= 2) || !(n & 1)) {
+    cout << "\nInvalid input!";
     return;
+  }
+
+  int correction = (n - 1) % 4;
 
   for (int i = 1; i <= n; i++) {
-    int stars = 2 * i - 1;
-    int spaces = n - i;
-
-    for (int j = 1; j <= spaces; j++)
-      cout << " ";
-    for (int k = 1; k <= stars; k++) {
-
-      int distance = min(k - 1, stars - k);
-
-      bool isStar = (distance % 4 == 0);
-      bool isDot = (distance % 4 == 3);
-      bool isDash = (distance % 4 == 1);
-      bool isO = (distance % 4 == 2);
-
-      if (isStar)
-        cout << "*";
-      else if (isDot)
-        cout << ".";
-      else if (isDash)
-        cout << "-";
-      else if (isO)
-        cout << "o";
-    }
-
-    cout << "\n";
+    row(i, n, correction);
   }
 
   for (int i = n - 1; i >= 1; i--) {
-    int stars = 2 * i - 1;
-    int spaces = n - i;
-
-    for (int j = 1; j <= spaces; j++)
-      cout << " ";
-    for (int k = 1; k <= stars; k++) {
-      int distance = min(
-          k - 1, stars - k); // it gives the smaller distance from the boundary
-
-      // they assign positional codes according to the value of distance
-
-      bool isStar = (distance % 4 == 0);
-      bool isDot = (distance % 4 == 3);
-      bool isDash = (distance % 4 == 1);
-      bool isO = (distance % 4 == 2);
-
-      if (isStar)
-        cout << "*";
-      else if (isDot)
-        cout << ".";
-      else if (isDash)
-        cout << "-";
-      else if (isO)
-        cout << "o";
-    }
-    cout << "\n";
+    row(i, n, correction);
   }
 }
 
+void question4() {}
+
 // utility functions
+
+void row(int i, int n, int correction) {
+
+  int width = 2 * i - 1;
+
+  char characters[4] = {'*', '.', 'o', '-'};
+
+  for (int k = 1; k <= n - i; k++)
+    cout << " ";
+
+  for (int j = 0; j < width; j++) {
+    int distance = min(j, width - j - 1);
+
+    cout << characters[(distance + correction) % 4];
+  }
+
+  cout << "\n";
+}
 
 void print_calendar(int month, int year) {
   year--;
   int day_of_week = 0;
   int jan = 31, feb = 28, mar = 31, april = 30, may = 31, june = 30, july = 31,
       aug = 31, sep = 30, oct = 31, nov = 30, dec = 31;
-  int days = (jan + feb + mar + april + may + june + july + aug + sep + oct +
-              nov + dec) *
-                 year +
-             year / 4 + year / 400 - year / 100 + 1;
+  long long days = (jan + feb + mar + april + may + june + july + aug + sep +
+                    oct + nov + dec) *
+                       year +
+                   year / 4 + year / 400 - year / 100 + 1;
 
   if ((((year + 1) % 4 == 0) && ((year + 1) % 100 != 0)) || !((year + 1) % 400))
     feb = 29;

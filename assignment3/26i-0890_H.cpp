@@ -2,7 +2,7 @@
 
 using namespace std;
 
-// Questions
+// questions
 
 void question1();
 void question2();
@@ -10,15 +10,23 @@ void question3();
 void question4();
 void question5();
 void question6();
+void question7();
 
 // utilities
+
+// for question 2
 void print_calendar(int, int);
+
+// for question 3
 void row(int, int, int);
+
+// for question 4
 long long sequence_sum(int, int);
 long long position_value(int, int, int, int);
 char display_value(long long);
 
-long long pow10(int);
+// for question 5
+long long power10(int);
 long long &get_row(int, long long &, long long &, long long &, long long &,
                    long long &, long long &, long long &, long long &,
                    long long &, long long &);
@@ -28,6 +36,7 @@ void set_cell(int, int, int, long long &, long long &, long long &, long long &,
               long long &, long long &, long long &, long long &, long long &,
               long long &);
 
+// for question 6
 int find_process(int[], int, int);
 int amount_of_free_memory(int[], int);
 int largest_free_consecutive_memory(int[], int);
@@ -40,13 +49,24 @@ void process_schedule(int, int, int, int[], int[], int[], int[], int[]);
 void non_preemptive(int, int, int[], int[], int[], int[], int[], int[], int[],
                     int[]);
 void round_robin(int, int[], int[], int[], int[], int[], int[], int[], int[]);
-void stats(int, int[], int[], int, int, int);
+void stats(int, int[], int[], int, int, int, int[], int[], int[]);
+
+// for question 7
+void clear_board(char[][7]);
+void show_board(char[][7]);
+bool valid_move(char[][7], int);
+int place_piece(char[][7], int, char);
+bool has_won(char[][7], char);
+bool board_full(char[][7]);
+int window_points(char, char, char, char);
+int score_position(char[][7]);
+int best_move(char[][7]);
 
 int main() {
 
   int choice;
 
-  cout << "\nEnter the question you want to run (1-8), 9 for bonus : ";
+  cout << "\nEnter the question you want to run (1-7): ";
   cin >> choice;
 
   switch (choice) {
@@ -70,10 +90,7 @@ int main() {
     question6();
     break;
   case 7:
-    break;
-  case 8:
-    break;
-  case 9:
+    question7();
     break;
   default:
     cout << "\nInvalid choice!";
@@ -82,7 +99,7 @@ int main() {
   return 0;
 }
 
-// Answers to questions 1-9
+// answers
 
 void question1() {
 
@@ -93,6 +110,8 @@ void question1() {
     return;
 
   int bound = n;
+
+  cout << "\n";
 
   for (int i = 1; i <= bound; i++) {
     for (int j = 1; j <= bound; j++) {
@@ -207,6 +226,11 @@ void question4() {
   cout << "Seed: ";
   cin >> seed;
 
+  if (n < 1 || base < 2 || base > 16) {
+    cout << "\nInvalid input!\n";
+    return;
+  }
+
   cout << "\n";
 
   for (int i = 1; i <= 2 * n - 1; i++) {
@@ -219,78 +243,85 @@ void question4() {
 
 void question5() {
 
-  cout << "\n";
-
   int n;
   cin >> n;
+
+  if (n < 2 || n > 10) {
+    cout << "\nInvalid grid size!\n";
+    return;
+  }
 
   long long r0 = 0, r1 = 0, r2 = 0, r3 = 0, r4 = 0;
   long long r5 = 0, r6 = 0, r7 = 0, r8 = 0, r9 = 0;
 
-  int gold_count = 0;
-  bool exit_found = false;
+  int gold = 0;
+  bool reached_exit = false;
 
-  // read grid
   for (int r = 0; r < n; r++) {
     for (int c = 0; c < n; c++) {
-      char ch;
-      cin >> ch;
-      int val = 0;
-      if (ch == '*')
-        val = 1;
-      else if (ch == 'G')
-        val = 2;
-      else if (ch == 'S')
-        val = 5;
-      else if (ch == 'E')
-        val = 4;
+      char tile;
+      cin >> tile;
 
-      set_cell(r, c, val, r0, r1, r2, r3, r4, r5, r6, r7, r8, r9);
+      int code = 0;
+      if (tile == '*')
+        code = 1;
+      else if (tile == 'G')
+        code = 2;
+      else if (tile == 'E')
+        code = 4;
+      else if (tile == 'S')
+        code = 5;
+
+      set_cell(r, c, code, r0, r1, r2, r3, r4, r5, r6, r7, r8, r9);
     }
   }
 
   cout << "\n";
 
-  bool changed = true;
-  while (changed) {
-    changed = false;
+  bool expanded = true;
+  while (expanded) {
+    expanded = false;
+
     for (int r = 0; r < n; r++) {
       for (int c = 0; c < n; c++) {
         if (get_cell(r, c, r0, r1, r2, r3, r4, r5, r6, r7, r8, r9) != 5)
           continue;
 
-        // check in the 4 directions
-        for (int dir = 0; dir < 4; dir++) {
-          int nr = r, nc = c;
-          if (dir == 0)
-            nr--;
-          else if (dir == 1)
-            nr++;
-          else if (dir == 2)
-            nc--;
-          else
-            nc++;
+        for (int side = 0; side < 4; side++) {
+          int next_r = r;
+          int next_c = c;
 
-          if (nr < 0 || nr >= n || nc < 0 || nc >= n)
+          if (side == 0)
+            next_r--;
+          else if (side == 1)
+            next_r++;
+          else if (side == 2)
+            next_c--;
+          else
+            next_c++;
+
+          if (next_r < 0 || next_r >= n || next_c < 0 || next_c >= n)
             continue;
 
-          int nb = get_cell(nr, nc, r0, r1, r2, r3, r4, r5, r6, r7, r8, r9);
+          int cell =
+              get_cell(next_r, next_c, r0, r1, r2, r3, r4, r5, r6, r7, r8, r9);
 
-          if (nb == 0 || nb == 2 || nb == 4) {
-            if (nb == 2)
-              gold_count++;
-            if (nb == 4)
-              exit_found = true;
-            set_cell(nr, nc, 5, r0, r1, r2, r3, r4, r5, r6, r7, r8, r9);
-            changed = true;
+          if (cell == 0 || cell == 2 || cell == 4) {
+            if (cell == 2)
+              gold++;
+            else if (cell == 4)
+              reached_exit = true;
+
+            set_cell(next_r, next_c, 5, r0, r1, r2, r3, r4, r5, r6, r7, r8, r9);
+            expanded = true;
           }
         }
       }
     }
   }
 
-  cout << "Solvable: " << (exit_found ? "YES" : "NO") << "\n";
-  cout << "Gold reachable: " << gold_count << "\n";
+  cout << "Solvable: " << (reached_exit ? "YES" : "NO") << "\n";
+  cout << "Gold reachable: " << gold << "\n";
 }
 
 void question6() {
@@ -338,6 +369,13 @@ void question6() {
       cin >> arrival_time[registered_processes] >>
           burst_time[registered_processes] >> priority[registered_processes] >>
           memory_requirement[registered_processes];
+
+      if (arrival_time[registered_processes] < 0 ||
+          burst_time[registered_processes] <= 0 ||
+          memory_requirement[registered_processes] <= 0) {
+        cout << "Invalid process parameters!\n";
+        break;
+      }
 
       pid[registered_processes] = 101 + registered_processes;
       remaining_burst_time[registered_processes] =
@@ -469,7 +507,8 @@ void question6() {
 
     case 11:
       stats(registered_processes, process_status, memory, MEMORY,
-            successful_allocations, failed_allocations);
+            successful_allocations, failed_allocations, completion_time,
+            turnaround_time, waiting_time);
       break;
 
     default:
@@ -479,7 +518,264 @@ void question6() {
   }
 }
 
+void question7() {
+  char board[6][7];
+  clear_board(board);
+  show_board(board);
+
+  while (true) {
+    int col;
+    cout << "Enter column (0-6): ";
+    cin >> col;
+    while (!valid_move(board, col)) {
+      cout << "Invalid or full column!\nEnter column (0-6): ";
+      cin >> col;
+    }
+
+    place_piece(board, col, 'X');
+    show_board(board);
+
+    if (has_won(board, 'X')) {
+      cout << "Human wins!\n";
+      break;
+    }
+    if (board_full(board)) {
+      cout << "Draw!\n";
+      break;
+    }
+
+    int ai_col = best_move(board);
+    place_piece(board, ai_col, 'O');
+    cout << "Computer plays column " << ai_col << ":\n";
+    show_board(board);
+
+    if (has_won(board, 'O')) {
+      cout << "Computer wins!\n";
+      break;
+    }
+    if (board_full(board)) {
+      cout << "Draw!\n";
+      break;
+    }
+  }
+}
+
 // utility functions
+
+// for question 7
+
+void clear_board(char board[][7]) {
+  for (int r = 0; r < 6; r++) {
+    for (int c = 0; c < 7; c++) {
+      board[r][c] = '.';
+    }
+  }
+}
+
+void show_board(char board[][7]) {
+  cout << "\n";
+  for (int r = 0; r < 6; r++) {
+    cout << "| ";
+    for (int c = 0; c < 7; c++) {
+      cout << board[r][c] << " ";
+    }
+    cout << "|\n";
+  }
+  cout << "+---------------+\n";
+  cout << "  0 1 2 3 4 5 6\n\n";
+}
+
+bool valid_move(char board[][7], int col) {
+  return (col >= 0 && col < 7 && board[0][col] == '.');
+}
+
+int place_piece(char board[][7], int col, char piece) {
+  for (int r = 5; r >= 0; r--) {
+    if (board[r][col] == '.') {
+      board[r][col] = piece;
+      return r;
+    }
+  }
+  return -1;
+}
+
+bool board_full(char board[][7]) {
+  for (int c = 0; c < 7; c++) {
+    if (board[0][c] == '.')
+      return false;
+  }
+  return true;
+}
+
+bool has_won(char board[][7], char p) {
+  for (int r = 0; r < 6; r++) {
+    for (int c = 0; c < 7; c++) {
+      if (c + 3 < 7 && board[r][c] == p && board[r][c + 1] == p &&
+          board[r][c + 2] == p && board[r][c + 3] == p)
+        return true;
+
+      if (r + 3 < 6 && board[r][c] == p && board[r + 1][c] == p &&
+          board[r + 2][c] == p && board[r + 3][c] == p)
+        return true;
+
+      if (r + 3 < 6 && c + 3 < 7 && board[r][c] == p &&
+          board[r + 1][c + 1] == p && board[r + 2][c + 2] == p &&
+          board[r + 3][c + 3] == p)
+        return true;
+
+      if (r - 3 >= 0 && c + 3 < 7 && board[r][c] == p &&
+          board[r - 1][c + 1] == p && board[r - 2][c + 2] == p &&
+          board[r - 3][c + 3] == p)
+        return true;
+    }
+  }
+  return false;
+}
+
+int window_points(char a, char b, char c, char d) {
+  int comp = 0, hum = 0, empty = 0;
+  char w[4] = {a, b, c, d};
+
+  for (int i = 0; i < 4; i++) {
+    if (w[i] == 'O')
+      comp++;
+    else if (w[i] == 'X')
+      hum++;
+    else
+      empty++;
+  }
+
+  if (comp == 3 && empty == 1)
+    return 5;
+  if (comp == 2 && empty == 2)
+    return 2;
+  if (hum == 3 && empty == 1)
+    return -4;
+  return 0;
+}
+
+int score_position(char board[][7]) {
+  int total = 0;
+
+  for (int r = 0; r < 6; r++) {
+    for (int c = 0; c < 7; c++) {
+      if (c + 3 < 7)
+        total += window_points(board[r][c], board[r][c + 1], board[r][c + 2],
+                               board[r][c + 3]);
+      if (r + 3 < 6)
+        total += window_points(board[r][c], board[r + 1][c], board[r + 2][c],
+                               board[r + 3][c]);
+      if (r + 3 < 6 && c + 3 < 7)
+        total += window_points(board[r][c], board[r + 1][c + 1],
+                               board[r + 2][c + 2], board[r + 3][c + 3]);
+      if (r - 3 >= 0 && c + 3 < 7)
+        total += window_points(board[r][c], board[r - 1][c + 1],
+                               board[r - 2][c + 2], board[r - 3][c + 3]);
+    }
+  }
+
+  for (int r = 0; r < 6; r++) {
+    if (board[r][3] == 'O')
+      total += 3;
+  }
+
+  return total;
+}
+
+int best_move(char board[][7]) {
+  int order[7] = {3, 2, 4, 1, 5, 0, 6};
+  int chosen_col = -1;
+  int best_val = -1000000;
+  int l1 = -1000000, u1 = 1000000;
+
+  // ply 1: computer
+  for (int i = 0; i < 7; i++) {
+    int c1 = order[i];
+    if (!valid_move(board, c1))
+      continue;
+
+    int r1 = place_piece(board, c1, 'O');
+    int val1 = 0;
+
+    if (has_won(board, 'O')) {
+      val1 = 100002;
+    } else if (board_full(board)) {
+      val1 = 0;
+    } else {
+      int min_val2 = 1000000;
+      int l2 = l1, u2 = u1;
+
+      // ply 2: human
+      for (int j = 0; j < 7; j++) {
+        int c2 = order[j];
+        if (!valid_move(board, c2))
+          continue;
+
+        int r2 = place_piece(board, c2, 'X');
+        int val2 = 0;
+
+        if (has_won(board, 'X')) {
+          val2 = -100001;
+        } else if (board_full(board)) {
+          val2 = 0;
+        } else {
+          int max_val3 = -1000000;
+          int l3 = l2, u3 = u2;
+
+          // ply 3: computer
+          for (int k = 0; k < 7; k++) {
+            int c3 = order[k];
+            if (!valid_move(board, c3))
+              continue;
+
+            int r3 = place_piece(board, c3, 'O');
+            int val3 = 0;
+
+            if (has_won(board, 'O'))
+              val3 = 100000;
+            else if (board_full(board))
+              val3 = 0;
+            else
+              val3 = score_position(board);
+
+            board[r3][c3] = '.';
+
+            if (val3 > max_val3)
+              max_val3 = val3;
+            if (max_val3 > l3)
+              l3 = max_val3;
+            if (l3 >= u3)
+              break;
+          }
+          val2 = max_val3;
+        }
+
+        board[r2][c2] = '.';
+
+        if (val2 < min_val2)
+          min_val2 = val2;
+        if (min_val2 < u2)
+          u2 = min_val2;
+        if (l2 >= u2)
+          break;
+      }
+      val1 = min_val2;
+    }
+
+    board[r1][c1] = '.';
+
+    if (val1 > best_val) {
+      best_val = val1;
+      chosen_col = c1;
+    }
+    if (best_val > l1)
+      l1 = best_val;
+    if (l1 >= u1)
+      break;
+  }
+
+  return chosen_col;
+}
 
 // for question 5
 
@@ -521,14 +817,14 @@ int get_cell(int r, int c, long long r0, long long r1, long long r2,
              long long r3, long long r4, long long r5, long long r6,
              long long r7, long long r8, long long r9) {
   long long row = get_row(r, r0, r1, r2, r3, r4, r5, r6, r7, r8, r9);
-  return (row / power10(c)) % 10;
+  return (int)((row / power10(c)) % 10);
 }
 
 void set_cell(int r, int c, int new_val, long long &r0, long long &r1,
               long long &r2, long long &r3, long long &r4, long long &r5,
               long long &r6, long long &r7, long long &r8, long long &r9) {
   long long &row = get_row(r, r0, r1, r2, r3, r4, r5, r6, r7, r8, r9);
-  int old_val = (row / power10(c)) % 10;
+  int old_val = (int)((row / power10(c)) % 10);
   row += (long long)(new_val - old_val) * power10(c);
 }
 
@@ -536,19 +832,19 @@ void set_cell(int r, int c, int new_val, long long &r0, long long &r1,
 
 long long position_value(int x_distance, int y_distance, int seed, int base) {
   int x = abs(x_distance), y = abs(y_distance);
-  int current_dominant = ((x > y) ? x : y);
+  int current_dominant = max(x, y);
   long long ring = sequence_sum(current_dominant, base);
 
   long long offset;
 
   if (x_distance < 0) {
 
-    current_dominant = ((-y_distance > 0) ? -y_distance : 0);
+    current_dominant = max(-y_distance, 0);
 
     offset = 2 * sequence_sum(current_dominant, base) - ring;
   } else {
 
-    current_dominant = ((y_distance > 0) ? y_distance : 0);
+    current_dominant = max(y_distance, 0);
 
     offset = ring - 2 * sequence_sum(current_dominant, base);
   }
@@ -586,8 +882,7 @@ void row(int i, int n, int correction) {
     cout << " ";
 
   for (int j = 0; j < width; j++) {
-    int distance =
-        min(j, width - j - 1); // it finds the distance from the nearest end
+    int distance = min(j, width - j - 1);
 
     cout << characters[(distance + correction) % 4];
   }
@@ -703,8 +998,7 @@ int largest_free_consecutive_memory(int arr[], int size) {
   for (int i = 0; i < size; i++) {
     if (arr[i] == 0) {
       current_free++;
-      if (current_free > max_free)
-        max_free = current_free;
+      max_free = max(max_free, current_free);
     } else {
       current_free = 0;
     }
@@ -823,7 +1117,6 @@ void process_schedule(int count, int busy_time, int end_time, int pid[],
           "allocations are unchanged.\n";
 }
 
-// this is the shortest job first SJF and the first come first serve FCFS one
 void non_preemptive(int mode, int count, int pid[], int arrival_time[],
                     int burst[], int remaining_burst_time[],
                     int completion_time[], int turnaround_time[],
@@ -867,13 +1160,12 @@ void non_preemptive(int mode, int count, int pid[], int arrival_time[],
     if (current_job == -1) {
       int next_arrival = 1000000000;
       for (int i = 0; i < count; i++) {
-        if (status[i] == 1 && !completed[i] && arrival_time[i] < next_arrival)
-          next_arrival = arrival_time[i];
+        if (status[i] == 1 && !completed[i])
+          next_arrival = min(next_arrival, arrival_time[i]);
       }
       time = next_arrival;
     } else {
-      if (time < arrival_time[current_job])
-        time = arrival_time[current_job];
+      time = max(time, arrival_time[current_job]);
 
       cout << pid[current_job] << "(" << burst[current_job] << ") ";
       time += burst[current_job];
@@ -939,26 +1231,24 @@ void round_robin(int count, int pid[], int arrival_time[], int burst[],
       }
       if (earliest == -1)
         break;
-      queue[rear++] = earliest;
+      queue[rear % 1000] = earliest;
+      rear++;
       queued[earliest] = true;
     }
 
     if (front == rear) {
       int next_arrival = 1000000000;
       for (int i = 0; i < count; i++) {
-        if (status[i] == 1 && !queued[i] && remaining_burst_time[i] > 0 &&
-            arrival_time[i] < next_arrival) {
-          next_arrival = arrival_time[i];
-        }
+        if (status[i] == 1 && !queued[i] && remaining_burst_time[i] > 0)
+          next_arrival = min(next_arrival, arrival_time[i]);
       }
       time = next_arrival;
       continue;
     }
 
-    int current = queue[front++];
-    int slice = (remaining_burst_time[current] < time_quantum)
-                    ? remaining_burst_time[current]
-                    : time_quantum;
+    int current = queue[front % 1000];
+    front++;
+    int slice = min(remaining_burst_time[current], time_quantum);
 
     cout << pid[current] << "(" << slice << ") ";
 
@@ -977,12 +1267,14 @@ void round_robin(int count, int pid[], int arrival_time[], int burst[],
       }
       if (earliest == -1)
         break;
-      queue[rear++] = earliest;
+      queue[rear % 1000] = earliest;
+      rear++;
       queued[earliest] = true;
     }
 
     if (remaining_burst_time[current] > 0) {
-      queue[rear++] = current;
+      queue[rear % 1000] = current;
+      rear++;
     } else {
       completion_time[current] = time;
       turnaround_time[current] =
@@ -998,7 +1290,8 @@ void round_robin(int count, int pid[], int arrival_time[], int burst[],
 }
 
 void stats(int count, int status[], int memory[], int size,
-           int successful_allocations, int failed_allocations) {
+           int successful_allocations, int failed_allocations,
+           int completion_time[], int turnaround_time[], int waiting_time[]) {
   int states_count[4] = {0};
 
   for (int i = 0; i < count; i++) {
@@ -1019,4 +1312,19 @@ void stats(int count, int status[], int memory[], int size,
        << largest_free_consecutive_memory(memory, size);
   cout << "\nSuccessful allocations: " << successful_allocations;
   cout << "\nFailed allocations: " << failed_allocations << "\n";
+
+  int scheduled_count = 0;
+  double total_tat = 0, total_wt = 0;
+  for (int i = 0; i < count; i++) {
+    if (completion_time[i] > 0) {
+      scheduled_count++;
+      total_tat += turnaround_time[i];
+      total_wt += waiting_time[i];
+    }
+  }
+  if (scheduled_count > 0) {
+    cout << "Scheduled processes: " << scheduled_count;
+    cout << "\nAverage turnaround time: " << (total_tat / scheduled_count);
+    cout << "\nAverage waiting time: " << (total_wt / scheduled_count) << "\n";
+  }
 }
